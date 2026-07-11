@@ -1,3 +1,3 @@
-import { domDisplay } from '.dom.js';
+import { domDisplay } from './dom.js';
 
 console.log(domDisplay);
