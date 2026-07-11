@@ -8,5 +8,8 @@ export default merge(common, {
 		static: './dist',
 		hot: true,
 		watchFiles: ['./src/*'],
+		port: 3000,
+		open: true,
+		compress: true,
 	},
 });
