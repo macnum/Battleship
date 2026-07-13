@@ -1,4 +1,4 @@
-class Ship {
+export default class Ship {
 	#numberOfHits = 0;
 	#length;
 	constructor(length) {
