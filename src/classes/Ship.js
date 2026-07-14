@@ -2,8 +2,9 @@ export default class Ship {
 	#numberOfHits = 0;
 	#length;
 	constructor(length) {
-		if (!Number.isInteger(length) || length <= 0)
-			throw new Error('Length number should be greater than 0');
+		if (!Number.isInteger(length) || length <= 0) {
+			throw new Error('Ship length must be a positive integer.');
+		}
 		this.#length = length;
 	}
 
