@@ -13,6 +13,9 @@ export default class GameBoard {
 			})),
 		);
 	}
+	get Capacity() {
+		return this.#capacity;
+	}
 
 	placeShip(ship, startCoords, direction) {
 		const shipCoordinates = this.#getShipCoordinates(
