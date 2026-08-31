@@ -1,9 +1,13 @@
 import Player from './Player.js';
-
+import { getRandomCoords } from '../utils/helpers.js';
 export default class Computer extends Player {
-	#capacity = 10; // currently a fixed vale but can be gotten from gameBoard
+	constructor() {
+		super();
+		this.placeShipsRandomly();
+	}
 	generateRandomCoordinates() {
-		return [this.#randomCoords(), this.#randomCoords()];
+		const capacity = this.gameBoard.Capacity;
+		return [getRandomCoords(capacity), getRandomCoords(capacity)];
 	}
 
 	isCoordinateAttacked(opponent, coords) {
@@ -11,9 +15,7 @@ export default class Computer extends Player {
 
 		return opponent.gameBoard.board[row][col].isAttacked;
 	}
-	#randomCoords() {
-		return Math.floor(Math.random() * this.#capacity);
-	}
+
 	getValidAttackCoordinates(opponent) {
 		let coords;
 		do {
@@ -25,9 +27,3 @@ export default class Computer extends Player {
 		return this.attack(opponent, this.getValidAttackCoordinates(opponent));
 	}
 }
-
-const comp = new Computer();
-const player1 = new Player();
-const coords = comp.generateRandomCoordinates();
-console.log(coords);
-console.log(comp.isCoordinateAttacked(player1, coords));
