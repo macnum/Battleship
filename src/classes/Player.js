@@ -1,4 +1,5 @@
 import GameBoard from './Gameboard.js';
+import { randomlyPlaceShips } from '../utils/helpers.js';
 
 export default class Player {
 	constructor() {
@@ -10,10 +11,7 @@ export default class Player {
 		}
 		return opponent.gameBoard.receiveAttack(coords);
 	}
+	placeShipsRandomly() {
+		randomlyPlaceShips(this.gameBoard);
+	}
 }
-
-const player1 = new Player();
-const player2 = new Player();
-console.log(player2.attack(player1, [0, 0]));
-console.log(player2.gameBoard);
-console.log(player1 instanceof Player);
