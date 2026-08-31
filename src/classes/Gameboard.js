@@ -3,6 +3,7 @@ export default class GameBoard {
 	#capacity;
 	#missedAttack = [];
 	#ships = new Set();
+	#sunkShip = null;
 	constructor(capacity = 10) {
 		this.#capacity = capacity;
 
@@ -12,6 +13,13 @@ export default class GameBoard {
 				isAttacked: false,
 			})),
 		);
+	}
+	get lastSunkShip() {
+		return this.#sunkShip;
+	}
+
+	get ships() {
+		return [...this.#ships];
 	}
 	get Capacity() {
 		return this.#capacity;
@@ -41,7 +49,7 @@ export default class GameBoard {
 	}
 	receiveAttack(attackCoords) {
 		const [row, col] = attackCoords;
-
+		this.#sunkShip = null;
 		if (
 			row < 0 ||
 			row >= this.#capacity ||
@@ -58,6 +66,10 @@ export default class GameBoard {
 
 		if (cell.ship !== null) {
 			cell.ship.hit();
+			if (cell.ship.isSunk()) {
+				this.#sunkShip = cell.ship;
+			}
+
 			return true;
 		} else {
 			this.#missedAttack.push(attackCoords);
