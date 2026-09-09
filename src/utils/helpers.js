@@ -1,12 +1,15 @@
 import Ship from '../classes/Ship.js';
 
+const SHIPS = [
+	new Ship(5, 'carrier'),
+	new Ship(4, 'battleship'),
+	new Ship(3, 'cruiser'),
+	new Ship(3, 'submarine'),
+	new Ship(2, 'destroyer'),
+];
+
 export function getShips() {
-	const carrier = new Ship(5, 'carrier');
-	const battleship = new Ship(4, 'battleship');
-	const cruiser = new Ship(3, 'cruiser');
-	const submarine = new Ship(3, 'submarine');
-	const destroyer = new Ship(2, 'destroyer');
-	return [carrier, battleship, cruiser, submarine, destroyer];
+	return SHIPS.map((s) => new Ship(s.length, s.name));
 }
 
 export function getRandomDirection() {
@@ -29,7 +32,12 @@ export function randomlyPlaceShips(gameBoard) {
 		);
 		const ship = duplicateShipsArr[randomIndex];
 		let shipPlaced = false;
-		while (!shipPlaced) {
+		// FIX: original loop had no upper bound — on a nearly-full board
+		// a run of bad luck could spin indefinitely. Capped at 500 tries
+		// (a 10x10 board with 5 ships never needs more than a handful).
+		let attempts = 0;
+		while (!shipPlaced && attempts < 500) {
+			attempts++;
 			try {
 				gameBoard.placeShip(
 					ship,
