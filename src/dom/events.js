@@ -11,17 +11,6 @@ import {
 	applyShipOrientation,
 } from './GameView.js';
 
-/*
- * events.js holds everything that responds to user interaction:
- * ship placement (both drag-and-drop and tap-to-place) and attacks.
- * It mutates `state` (imported from index.js) and calls back into
- * gameview.js to re-render after each action.
- */
-
-// ---------------------------------------------------------------------
-// Ship placement — drag-and-drop AND tap-to-select + tap-to-place.
-// (HTML5 drag-and-drop has no touch support, hence the second path.)
-// ---------------------------------------------------------------------
 export function toggleShipSelection(shipName) {
 	if (state.selectedShipName === shipName) {
 		clearShipSelection();
@@ -153,9 +142,6 @@ export function rotatePlacement() {
 	}
 }
 
-// ---------------------------------------------------------------------
-// Battle phase
-// ---------------------------------------------------------------------
 export function handleAttack(ev) {
 	if (state.game.winner) return;
 	const row = Number(ev.currentTarget.dataset.row);
