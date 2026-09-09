@@ -8,16 +8,12 @@ describe('Computer Class', () => {
 		test('Generates coordinates within the board bounds', () => {
 			const computer = new Computer();
 			const coords = computer.generateRandomCoordinates();
-
 			expect(typeof coords[0]).toBe('number');
 			expect(typeof coords[1]).toBe('number');
-
 			expect(coords[0]).toBeGreaterThanOrEqual(0);
 			expect(coords[0]).toBeLessThan(10);
-
 			expect(coords[1]).toBeGreaterThanOrEqual(0);
 			expect(coords[1]).toBeLessThan(10);
-
 			expect(coords.length).toBe(2);
 		});
 	});
@@ -25,16 +21,12 @@ describe('Computer Class', () => {
 		test("Doesn't return coordinates that have already been attacked", () => {
 			const computer = new Computer();
 			const opponent = new Player();
-
 			opponent.gameBoard.board[0][1].isAttacked = true;
 			opponent.gameBoard.board[6][3].isAttacked = true;
 			opponent.gameBoard.board[2][7].isAttacked = true;
 			opponent.gameBoard.board[8][6].isAttacked = true;
 			opponent.gameBoard.board[0][9].isAttacked = true;
-			console.log(opponent.gameBoard.board);
-
 			const coords = computer.getValidAttackCoordinates(opponent);
-
 			expect(computer.isCoordinateAttacked(opponent, coords)).toBe(false);
 		});
 	});
@@ -47,7 +39,6 @@ describe('Computer Class', () => {
 				.spyOn(computer, 'getValidAttackCoordinates')
 				.mockReturnValue([0, 0]);
 			computer.makeMove(opponent);
-
 			expect(spy).toHaveBeenCalled();
 			expect(spy).toHaveBeenCalledWith(opponent);
 			expect(opponent.gameBoard.board[0][0].isAttacked).toBe(true);
@@ -62,6 +53,24 @@ describe('Computer Class', () => {
 			expect(computer.makeMove(opponent)).toBe(false);
 			expect(spy).toHaveBeenCalledWith(opponent);
 			expect(opponent.gameBoard.board[0][0].isAttacked).toBe(true);
+		});
+	});
+	describe('placeShipsRandomly()', () => {
+		test('Computer places ships on its board', () => {
+			const computer = new Computer();
+			computer.placeShipsRandomly();
+			expect(computer.gameBoard.allShipsSunk()).toBe(false);
+			expect(computer.gameBoard.ships).toHaveLength(5);
+		});
+	});
+	describe('placeShipsRandomly() overlap', () => {
+		test('Computer places ships without overlapping them.', () => {
+			const computer = new Computer();
+			computer.placeShipsRandomly();
+			const occupiedCells = computer.gameBoard.board
+				.flat()
+				.filter((cell) => cell.ship !== null);
+			expect(occupiedCells).toHaveLength(17);
 		});
 	});
 });
