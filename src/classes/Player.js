@@ -2,7 +2,8 @@ import GameBoard from './Gameboard.js';
 import { randomlyPlaceShips } from '../utils/helpers.js';
 
 export default class Player {
-	constructor() {
+	constructor(name = 'Player') {
+		this.name = name;
 		this.gameBoard = new GameBoard();
 	}
 	attack(opponent, coords) {

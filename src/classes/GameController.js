@@ -3,18 +3,16 @@ import Computer from './Computer.js';
 
 export default class GameController {
 	#lastSunkShip = null;
-	#placedShips = null;
 	constructor() {
 		this.#setupGame();
 	}
 
 	#setupGame() {
-		this.player = new Player();
+		this.player = new Player('You');
 		this.opponent = new Computer();
 		this.currentTurn = this.player;
 		this.winner = undefined;
 		this.#lastSunkShip = null;
-		this.#placedShips = null;
 	}
 	resetGame() {
 		this.#setupGame();
@@ -27,7 +25,7 @@ export default class GameController {
 		this.player.placeShipsRandomly();
 	}
 	changeToPvP() {
-		this.opponent = new Player();
+		this.opponent = new Player('Player 2');
 	}
 	makeAttack(coords) {
 		if (this.winner) {
@@ -36,35 +34,16 @@ export default class GameController {
 
 		const opponent = this.#getOpponent();
 
-		const attack = this.currentTurn.attack(opponent, coords);
+		const attack =
+			this.currentTurn instanceof Computer
+				? this.currentTurn.makeMove(opponent)
+				: this.currentTurn.attack(opponent, coords);
 
 		this.#lastSunkShip = opponent.gameBoard.lastSunkShip;
 
 		if (this.isGameOver(opponent)) {
 			this.winner = this.currentTurn;
-			return this.winner;
-		}
-
-		this.#switchTurn();
-
-		return attack;
-	}
-	computerTurn() {
-		if (this.winner) {
-			throw new Error('Game is already over');
-		}
-		if (this.currentTurn !== this.opponent) {
-			throw new Error("It is not the computer's turn");
-		}
-		const opponent = this.#getOpponent();
-
-		const attack = this.currentTurn.makeMove(opponent);
-
-		this.#lastSunkShip = opponent.gameBoard.lastSunkShip;
-
-		if (this.isGameOver(opponent)) {
-			this.winner = this.currentTurn;
-			return this.winner;
+			return attack;
 		}
 
 		this.#switchTurn();

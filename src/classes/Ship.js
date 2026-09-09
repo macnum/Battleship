@@ -1,11 +1,12 @@
 export default class Ship {
 	#numberOfHits = 0;
 	#length;
-	constructor(length) {
+	constructor(length, name = null) {
 		if (!Number.isInteger(length) || length <= 0) {
 			throw new Error('Ship length must be a positive integer.');
 		}
 		this.#length = length;
+		this.name = name;
 	}
 
 	hit() {

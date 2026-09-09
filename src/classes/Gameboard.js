@@ -1,4 +1,3 @@
-// import Ship from './Ship.js';
 export default class GameBoard {
 	#capacity;
 	#missedAttack = [];
@@ -118,8 +117,3 @@ export default class GameBoard {
 		return [...this.#missedAttack];
 	}
 }
-
-// const bd = new GameBoard();
-
-// console.log(bd.board[10][19]);
-// console.log(!undefined);
