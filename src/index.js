@@ -1,3 +1,4 @@
+import './style.css';
 import GameController from './classes/GameController.js';
 import {
 	renderBoard,
